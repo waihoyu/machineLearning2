@@ -1,14 +1,16 @@
+
 import pandas as pd
 from io import StringIO
 
 from sklearn import linear_model
 
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 
 # 房屋面积与价格历史数据(csv文件)
 csv_data = 'square_feet,price\n150,6450\n200,7450\n250,8450\n300,9450\n350,11450\n400,15450\n600,18450\n'
+
 
 # 读入dataframe
 df = pd.read_csv(StringIO(csv_data))
@@ -23,6 +25,7 @@ regr.fit(df['square_feet'].values.reshape(-1, 1), df['price'])
 
 # 注意此处.reshape(-1, 1)，因为X是一维的！
 
+
 # 不难得到直线的斜率、截距
 a, b = regr.coef_, regr.intercept_
 
@@ -33,7 +36,14 @@ area = 238.5
 print(a * area + b)
 
 # 方式2：根据predict方法预测的价格
-print(regr.predict(area))
+print(np.array(area))
+
+x_new = np.array(area).reshape(-1, 1)
+
+y_pred = regr.predict(x_new)
+
+print(y_pred)
+print(x_new)
 
 # 画图
 # 1.真实的点
